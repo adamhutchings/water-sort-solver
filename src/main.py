@@ -123,7 +123,7 @@ class WaterSortState:
                 if vial == []:
                     empties += 1
         cost = swaps + unfull
-        cost *= empties ** 2/3
+        cost *= (2/3) ** empties
         return cost
     
     def is_trivially_solvable(self):
