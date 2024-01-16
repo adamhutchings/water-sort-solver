@@ -96,15 +96,6 @@ class WaterSortState:
                         children.append(new_state)
         return children
     
-    # Counts how many color changes there are.
-    def swap_ct(self) -> int:
-        swaps = 0
-        for vial in self.vials:
-            for i in range(1, len(vial)):
-                if vial[i] != vial[i - 1]:
-                    swaps += 1
-        return swaps
-    
     def heuristic(self):
         # We'll go through and count the number of swaps to different colors
         # we see. This is admissible because each pour can only decrease this
@@ -126,8 +117,8 @@ class WaterSortState:
         cost *= (2/3) ** empties
         return cost
     
-    def is_trivially_solvable(self):
-        return self.swap_ct() == 0
+    def is_solved(self):
+        return self.heuristic() == 0
     
     def __hash__(self) -> int:
         # Concatenate all lists together and hash that.
@@ -168,7 +159,7 @@ def find_solution_path(start: WaterSortState) -> List[tuple[int]]:
         node = heappop(nodes)
         nodes_seen[node] = True
         state: WaterSortState = node[1]
-        if state.is_trivially_solvable():
+        if state.is_solved():
             return get_moves(state, prevs)
         new_nodes: List[WaterSortState] = state.all_possible_children()
         for nnode in new_nodes:
