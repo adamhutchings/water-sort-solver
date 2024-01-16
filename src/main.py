@@ -132,7 +132,9 @@ class WaterSortState:
     def __hash__(self) -> int:
         # Concatenate all lists together and hash that.
         megalist = []
-        for vial in self.vials:
+        vial_copy = self.vials.copy()
+        vial_copy.sort()
+        for vial in vial_copy:
             megalist.extend(vial)
         return tuple(megalist).__hash__()
     
